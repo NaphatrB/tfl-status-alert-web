@@ -12,6 +12,9 @@
   "license": "MIT",
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20230404.0",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
+    "@vitejs/plugin-react": "^4.0.0",
     "autoprefixer": "^10.4.14",
     "cssnano": "^6.0.1",
     "patch-package": "^8.0.0",
@@ -22,7 +25,6 @@
     "typescript": "^5.0.4",
     "vite": "^4.1.1",
     "vite-plugin-pwa": "^0.16.4",
-    "@vitejs/plugin-react": "^4.0.0",
     "workbox-core": "^7.0.0",
     "wrangler": "^3.5.0"
   },
