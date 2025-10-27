@@ -1,10 +1,10 @@
 import { defineConfig } from "vite";
-import solidPlugin from "vite-plugin-solid";
+import react from "@vitejs/plugin-react";
 import { VitePWA } from "vite-plugin-pwa";
 
 export default defineConfig({
   plugins: [
-    solidPlugin(),
+    react(),
     VitePWA({
       srcDir: "src",
       filename: "sw.ts",

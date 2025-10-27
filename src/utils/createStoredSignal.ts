@@ -1,28 +1,31 @@
-import { Signal, createSignal } from "solid-js";
+import { useState, useEffect, Dispatch, SetStateAction } from "react";
 
 export function createStoredSignal<T>(
   key: string,
   defaultValue?: T,
   storage = localStorage,
-): [...Signal<T | undefined>, () => void] {
-  const initialValue = storage.getItem(key)
-    ? (JSON.parse(storage.getItem(key)!) as T)
-    : defaultValue;
+): [T | undefined, Dispatch<SetStateAction<T | undefined>>, () => void] {
+  const getInitialValue = (): T | undefined => {
+    try {
+      const item = storage.getItem(key);
+      return item ? (JSON.parse(item) as T) : defaultValue;
+    } catch {
+      return defaultValue;
+    }
+  };
 
-  const [value, setValue] = createSignal<T | undefined>(initialValue);
+  const [value, setValue] = useState<T | undefined>(getInitialValue);
 
-  const setValueAndStore = ((
-    arg: Exclude<T, Function> | ((prev: T | undefined) => T),
-  ) => {
-    const v = setValue(arg);
-    storage.setItem(key, JSON.stringify(v));
-    return v;
-  }) as typeof setValue;
+  useEffect(() => {
+    if (value !== undefined) {
+      storage.setItem(key, JSON.stringify(value));
+    }
+  }, [value, key, storage]);
 
   const remove = () => {
     setValue(undefined);
     storage.removeItem(key);
   };
 
-  return [value, setValueAndStore, remove];
+  return [value, setValue, remove];
 }

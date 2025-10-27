@@ -1,4 +1,4 @@
-import { Component, createSignal } from "solid-js";
+import { useState, FormEvent } from "react";
 import { Line } from "../services/Line";
 import { createStoredSignal } from "../utils/createStoredSignal";
 import {
@@ -29,16 +29,16 @@ const getRow = (hour: number, subscriptions: WeekSubscriptions | null) => {
     const day = i === 7 ? 0 : i; // sunday is zero
     const inputID = `time-${day}-${hour}`;
     cols.push(
-      <td class="relative py-[24px]">
-        <label class="absolute inset-0 flex items-center justify-center">
+      <td key={i} className="relative py-[24px]">
+        <label className="absolute inset-0 flex items-center justify-center">
           <input
             name={INPUT_FIELD_NAME}
             type="checkbox"
             value={`${i}-${hour}`}
-            class=" w-[36px] h-[36px] accent-line-background"
-            checked={subscriptions?.[i]?.[hour] === true}
+            className="w-[36px] h-[36px] accent-line-background"
+            defaultChecked={subscriptions?.[i]?.[hour] === true}
           />
-          <span class="sr-only">
+          <span className="sr-only">
             {days[day]} {hourLabel}
           </span>
         </label>
@@ -47,8 +47,8 @@ const getRow = (hour: number, subscriptions: WeekSubscriptions | null) => {
   }
 
   return (
-    <tr class="even:bg-body-background">
-      <th class="text-lg">{hourLabel}</th>
+    <tr key={hour} className="even:bg-body-background">
+      <th className="text-lg">{hourLabel}</th>
       {cols}
     </tr>
   );
@@ -61,42 +61,42 @@ const getTable = (subscriptions: WeekSubscriptions | null) => {
   }
 
   return (
-    <table class="w-full">
-      <thead class="bg-body-background sticky -top-1 z-10">
+    <table className="w-full">
+      <thead className="bg-body-background sticky -top-1 z-10">
         <tr>
-          <th class="w-[calc(100%/8)] py-0.5" />
-          <th class="w-[calc(100%/8)] py-0.5">
-            <abbr class="text-lg no-underline" title="Monday">
+          <th className="w-[calc(100%/8)] py-0.5" />
+          <th className="w-[calc(100%/8)] py-0.5">
+            <abbr className="text-lg no-underline" title="Monday">
               M
             </abbr>
           </th>
-          <th class="w-[calc(100%/8)] py-0.5">
-            <abbr class="text-lg no-underline" title="Tuesday">
+          <th className="w-[calc(100%/8)] py-0.5">
+            <abbr className="text-lg no-underline" title="Tuesday">
               T
             </abbr>
           </th>
-          <th class="w-[calc(100%/8)] py-0.5">
-            <abbr class="text-lg no-underline" title="Wednesday">
+          <th className="w-[calc(100%/8)] py-0.5">
+            <abbr className="text-lg no-underline" title="Wednesday">
               W
             </abbr>
           </th>
-          <th class="w-[calc(100%/8)] py-0.5">
-            <abbr class="text-lg no-underline" title="Thursday">
+          <th className="w-[calc(100%/8)] py-0.5">
+            <abbr className="text-lg no-underline" title="Thursday">
               T
             </abbr>
           </th>
-          <th class="w-[calc(100%/8)] py-0.5">
-            <abbr class="text-lg no-underline" title="Friday">
+          <th className="w-[calc(100%/8)] py-0.5">
+            <abbr className="text-lg no-underline" title="Friday">
               F
             </abbr>
           </th>
-          <th class="w-[calc(100%/8)] py-0.5">
-            <abbr class="text-lg no-underline" title="Saturday">
+          <th className="w-[calc(100%/8)] py-0.5">
+            <abbr className="text-lg no-underline" title="Saturday">
               S
             </abbr>
           </th>
-          <th class="w-[calc(100%/8)] py-0.5">
-            <abbr class="text-lg no-underline" title="Sunday">
+          <th className="w-[calc(100%/8)] py-0.5">
+            <abbr className="text-lg no-underline" title="Sunday">
               S
             </abbr>
           </th>
@@ -113,8 +113,8 @@ export type Subscriptions = {
 
 const STATUS_TEXT = "Set which hours you wish to be notified for this line";
 
-export const Subscription: Component<{ line: Line }> = (props) => {
-  const [status, setStatus] = createSignal<string>(STATUS_TEXT);
+export const Subscription = ({ line }: { line: Line }) => {
+  const [status, setStatus] = useState<string>(STATUS_TEXT);
   const [subscriptions, setSubscriptions] = createStoredSignal<Subscriptions>(
     SUBSCRIPTION_DATA_LOCALSTORAGE_KEY,
     {},
@@ -131,11 +131,11 @@ export const Subscription: Component<{ line: Line }> = (props) => {
     );
   }
 
-  const saveSubscriptions = (evt: SubmitEvent, lineKey: string) => {
+  const saveSubscriptions = (evt: FormEvent, lineKey: string) => {
     evt.preventDefault();
     setStatus("Saving…");
-    const data = new FormData(evt.target as any);
-    const newSubscriptions: Subscriptions = { ...subscriptions() };
+    const data = new FormData(evt.target as HTMLFormElement);
+    const newSubscriptions: Subscriptions = { ...subscriptions };
     const timeSlots: WeekSubscriptions = [];
 
     data.forEach((value, name) => {
@@ -195,24 +195,24 @@ export const Subscription: Component<{ line: Line }> = (props) => {
 
   return (
     <details>
-      <summary class="border-y cursor-pointer text-lg py-1 mb-1">
+      <summary className="border-y cursor-pointer text-lg py-1 mb-1">
         Alert me of disruptions (0)
       </summary>
       <form
-        class="pb-[120px]"
-        onSubmit={(evt) => saveSubscriptions(evt, props.line.tflKey)}
+        className="pb-[120px]"
+        onSubmit={(evt) => saveSubscriptions(evt, line.tflKey)}
       >
         <fieldset>
           <legend
-            class="z-20 flex gap-2 justify-between items-center fixed 
+            className="z-20 flex gap-2 justify-between items-center fixed 
            bottom-1 left-1 right-1 bg-body-background rounded-lg p-0.5 pl-1 border
            border-solid border-current
            mb-[env(safe-area-inset-bottom)]"
           >
-            {status()}
+            {status}
             <Button type="submit">Save</Button>
           </legend>
-          {getTable(subscriptions()?.[props.line?.tflKey] || null)}
+          {getTable(subscriptions?.[line?.tflKey] || null)}
         </fieldset>
       </form>
     </details>

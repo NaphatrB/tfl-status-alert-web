@@ -1,4 +1,4 @@
-import { createSignal } from "solid-js";
+import { useState, FormEvent } from "react";
 import { isSupported } from "../utils/pushManger";
 import { ActivePagePanel } from "./ActivePage";
 import { Button } from "./Button";
@@ -9,14 +9,14 @@ import { Subscriptions } from "./Subscription";
 export const Settings = () => {
   return (
     <ActivePagePanel title="Settings">
-      <h2 class="text-lg">Notifications</h2>
+      <h2 className="text-lg">Notifications</h2>
       <Unsubscribe />
       <hr />
-      <h2 class="text-lg">About</h2>
+      <h2 className="text-lg">About</h2>
       <p>
         Powered by TfL Open Data. <br />
         Built by{" "}
-        <a href="https://rland.me.uk" target="_blank" class="underline">
+        <a href="https://rland.me.uk" target="_blank" className="underline" rel="noreferrer">
           David Marland
         </a>
       </p>
@@ -39,13 +39,13 @@ export const Unsubscribe = () => {
     );
   }
 
-  const [status, setStatus] = createSignal<string>(STATUS_TEXT);
+  const [status, setStatus] = useState<string>(STATUS_TEXT);
   const [, , remove] = createStoredSignal<Subscriptions>(
     SUBSCRIPTION_DATA_LOCALSTORAGE_KEY,
     {},
   );
 
-  const unsubscribe = (evt: SubmitEvent) => {
+  const unsubscribe = (evt: FormEvent) => {
     evt.preventDefault();
     if (!window.confirm("Are you sure? This cannot be undone.")) {
       return;
@@ -84,8 +84,8 @@ export const Unsubscribe = () => {
 
   return (
     <form onSubmit={unsubscribe}>
-      <p class="mb-1">{status()}</p>
-      {status() === STATUS_TEXT && <Button>Unsubscribe</Button>}
+      <p className="mb-1">{status}</p>
+      {status === STATUS_TEXT && <Button>Unsubscribe</Button>}
     </form>
   );
 };

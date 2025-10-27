@@ -1,15 +1,15 @@
-/* @refresh reload */
-import { render } from "solid-js/web";
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
 
 import "./index.css";
 import App from "./App";
-import { Router } from "@solidjs/router";
 
 const root = document.getElementById("root");
 
-if (import.meta.env.DEV && !(root instanceof HTMLElement)) {
+if (!root) {
   throw new Error(
-    "Root element not found. Did you forget to add it to your index.html? Or maybe the id attribute got mispelled?",
+    "Root element not found. Did you forget to add it to your index.html? Or maybe the id attribute got misspelled?",
   );
 }
 
@@ -19,11 +19,10 @@ if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register(url, { scope: "/" });
 }
 
-render(
-  () => (
-    <Router>
+ReactDOM.createRoot(root).render(
+  <React.StrictMode>
+    <BrowserRouter>
       <App />
-    </Router>
-  ),
-  root!,
+    </BrowserRouter>
+  </React.StrictMode>,
 );
