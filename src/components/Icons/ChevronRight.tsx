@@ -1,9 +1,6 @@
 const ChevronRight = () => (
   <svg>
-    <use
-      
-      xlinkHref="#icon-chevron-right"
-    />
+    <use xlinkHref="#icon-chevron-right" />
   </svg>
 );
 

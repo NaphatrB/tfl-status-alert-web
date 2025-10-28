@@ -1,9 +1,6 @@
 const Starred = () => (
   <svg>
-    <use
-      
-      xlinkHref="#icon-starred"
-    />
+    <use xlinkHref="#icon-starred" />
   </svg>
 );
 

@@ -5,7 +5,13 @@ import Starred from "./Icons/Starred";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Settings } from "./Settings";
 import { ActiveLine } from "./ActiveLine";
-import { getStoredLineKeys, starLine, unstarLine } from "../services/Line";
+import {
+  getStoredLineKeys,
+  starLine,
+  unstarLine,
+  getLineByUrlKey,
+} from "../services/Line";
+import { getLineColor } from "../services/Colors";
 
 const ACTIVE_PANEL_ID = "active-panel";
 
@@ -62,12 +68,12 @@ const StarIcon = ({ lineKey }: { lineKey: string | undefined }) => {
 
   const handleStar = () => {
     starLine(lineKey);
-    setRefresh(prev => prev + 1);
+    setRefresh((prev) => prev + 1);
   };
 
   const handleUnstar = () => {
     unstarLine(lineKey);
-    setRefresh(prev => prev + 1);
+    setRefresh((prev) => prev + 1);
   };
 
   if (getStoredLineKeys().includes(lineKey)) {
@@ -91,6 +97,12 @@ export const ActivePagePanel = (props: {
   children?: ReactNode;
 }) => {
   const navigate = useNavigate();
+
+  // Get line colors dynamically
+  const line = props.lineKey ? getLineByUrlKey(props.lineKey) : null;
+  const colors = line
+    ? getLineColor(line.tflKey)
+    : { background: "#1c1917", foreground: "#fafaf9" };
 
   const onTouchStart = (e: TouchEvent) => {
     activePanel =
@@ -164,10 +176,13 @@ export const ActivePagePanel = (props: {
   return (
     <div className="flex flex-col max-h-full" data-line={props.lineKey}>
       <div
-        className="bg-line-background text-line-foreground
-    rounded-t-xl  lg:rounded-tr-none lg:rounded-tl-xl
+        className="rounded-t-xl  lg:rounded-tr-none lg:rounded-tl-xl
     flex justify-between gap-1 items-center
     py-0.5 pl-1 pr-0.5"
+        style={{
+          backgroundColor: colors.background,
+          color: colors.foreground,
+        }}
         onTouchStart={onTouchStart}
         onTouchMove={onTouchMove}
         onTouchEnd={onTouchEnd}

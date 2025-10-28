@@ -1,4 +1,5 @@
-import { Line } from "./Line";
+import { Line, ALL_LINES } from "./Line";
+import TFLService from "./TFLService";
 
 export type Status = Line & {
   isDisrupted: boolean;
@@ -37,10 +38,15 @@ export const setLatestStatus = (data: Status[]) => {
   notifyListeners();
 };
 
-export const updateStatus = () => {
-  fetch("/api/status")
-    .then((a) => a.json())
-    .then((data: Status[]) => setLatestStatus(data));
+const tflService = new TFLService();
+
+export const updateStatus = async () => {
+  try {
+    const data = await tflService.getCurrentStatus(ALL_LINES);
+    setLatestStatus(data);
+  } catch (e) {
+    console.error("Failed to update status:", e);
+  }
 };
 
 export const getLineStatus = (urlKey: string) => {

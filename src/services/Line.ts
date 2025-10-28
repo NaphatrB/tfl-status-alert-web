@@ -4,6 +4,7 @@ export type Line = {
   urlKey: string;
   tflKey: string;
   displayOrder: number;
+  modeName: string; // e.g., "tube", "dlr", "overground", etc.
 };
 
 export const ALL_LINES: Line[] = [
@@ -13,6 +14,7 @@ export const ALL_LINES: Line[] = [
     urlKey: "bakerloo-line",
     tflKey: "bakerloo",
     displayOrder: 1,
+    modeName: "tube",
   },
   {
     name: "Central Line",
@@ -20,6 +22,7 @@ export const ALL_LINES: Line[] = [
     urlKey: "central-line",
     tflKey: "central",
     displayOrder: 2,
+    modeName: "tube",
   },
   {
     name: "Circle Line",
@@ -27,6 +30,7 @@ export const ALL_LINES: Line[] = [
     urlKey: "circle-line",
     tflKey: "circle",
     displayOrder: 3,
+    modeName: "tube",
   },
   {
     name: "District Line",
@@ -34,6 +38,7 @@ export const ALL_LINES: Line[] = [
     urlKey: "district-line",
     tflKey: "district",
     displayOrder: 4,
+    modeName: "tube",
   },
   {
     name: "Hammersmith \u0026 City Line",
@@ -41,6 +46,7 @@ export const ALL_LINES: Line[] = [
     urlKey: "hammersmith-city-line",
     tflKey: "hammersmith-city",
     displayOrder: 5,
+    modeName: "tube",
   },
   {
     name: "Jubilee Line",
@@ -48,6 +54,7 @@ export const ALL_LINES: Line[] = [
     urlKey: "jubilee-line",
     tflKey: "jubilee",
     displayOrder: 6,
+    modeName: "tube",
   },
   {
     name: "Metropolitan Line",
@@ -55,6 +62,7 @@ export const ALL_LINES: Line[] = [
     urlKey: "metropolitan-line",
     tflKey: "metropolitan",
     displayOrder: 7,
+    modeName: "tube",
   },
   {
     name: "Northern Line",
@@ -62,6 +70,7 @@ export const ALL_LINES: Line[] = [
     urlKey: "northern-line",
     tflKey: "northern",
     displayOrder: 8,
+    modeName: "tube",
   },
   {
     name: "Piccadilly Line",
@@ -69,6 +78,7 @@ export const ALL_LINES: Line[] = [
     urlKey: "piccadilly-line",
     tflKey: "piccadilly",
     displayOrder: 9,
+    modeName: "tube",
   },
   {
     name: "Victoria Line",
@@ -76,6 +86,7 @@ export const ALL_LINES: Line[] = [
     urlKey: "victoria-line",
     tflKey: "victoria",
     displayOrder: 10,
+    modeName: "tube",
   },
   {
     name: "Waterloo \u0026 City Line",
@@ -83,6 +94,7 @@ export const ALL_LINES: Line[] = [
     urlKey: "waterloo-city-line",
     tflKey: "waterloo-city",
     displayOrder: 11,
+    modeName: "tube",
   },
   {
     name: "Elizabeth Line",
@@ -90,6 +102,7 @@ export const ALL_LINES: Line[] = [
     urlKey: "elizabeth-line",
     tflKey: "elizabeth",
     displayOrder: 12,
+    modeName: "elizabeth-line",
   },
   {
     name: "Liberty Line",
@@ -97,6 +110,7 @@ export const ALL_LINES: Line[] = [
     urlKey: "liberty-line",
     tflKey: "liberty",
     displayOrder: 13,
+    modeName: "overground",
   },
   {
     name: "Lioness Line",
@@ -104,6 +118,7 @@ export const ALL_LINES: Line[] = [
     urlKey: "lioness-line",
     tflKey: "lioness",
     displayOrder: 14,
+    modeName: "overground",
   },
   {
     name: "Mildmay Line",
@@ -111,6 +126,7 @@ export const ALL_LINES: Line[] = [
     urlKey: "mildmay-line",
     tflKey: "mildmay",
     displayOrder: 15,
+    modeName: "overground",
   },
   {
     name: "Suffragette Line",
@@ -118,6 +134,7 @@ export const ALL_LINES: Line[] = [
     urlKey: "suffragette-line",
     tflKey: "suffragette",
     displayOrder: 16,
+    modeName: "overground",
   },
   {
     name: "Weaver Line",
@@ -125,6 +142,7 @@ export const ALL_LINES: Line[] = [
     urlKey: "weaver-line",
     tflKey: "weaver",
     displayOrder: 17,
+    modeName: "overground",
   },
   {
     name: "Windrush Line",
@@ -132,6 +150,7 @@ export const ALL_LINES: Line[] = [
     urlKey: "windrush-line",
     tflKey: "windrush",
     displayOrder: 18,
+    modeName: "overground",
   },
   {
     name: "DLR",
@@ -139,6 +158,7 @@ export const ALL_LINES: Line[] = [
     urlKey: "dlr",
     tflKey: "dlr",
     displayOrder: 19,
+    modeName: "dlr",
   },
   {
     name: "Tram",
@@ -146,6 +166,7 @@ export const ALL_LINES: Line[] = [
     urlKey: "tram",
     tflKey: "tram",
     displayOrder: 20,
+    modeName: "tram",
   },
 ];
 
@@ -269,31 +290,58 @@ export const getLines = () => {
 
   const findInStoredLines = (lineKey: string) => {
     const foundIndex = storedLineKeys.indexOf(lineKey);
-    return (foundIndex === -1) ? Infinity : foundIndex;
-  }
+    return foundIndex === -1 ? Infinity : foundIndex;
+  };
 
-  ALL_LINES.sort((line, anotherLine) => findInStoredLines(line.urlKey) - findInStoredLines(anotherLine.urlKey));
+  ALL_LINES.sort(
+    (line, anotherLine) =>
+      findInStoredLines(line.urlKey) - findInStoredLines(anotherLine.urlKey),
+  );
   return ALL_LINES;
 };
 
 export const getStoredLineKeys = () => {
-  const storedLineKeys: string[] = JSON.parse(localStorage.getItem("starredLines") || "[]");
+  const storedLineKeys: string[] = JSON.parse(
+    localStorage.getItem("starredLines") || "[]",
+  );
   return storedLineKeys;
 };
 
 export const storeLineKeys = (lineKeys: string[]) => {
   localStorage.setItem("starredLines", JSON.stringify(lineKeys));
-}
+};
 
 export function starLine(lineKey: string) {
-  const storedLineKeys = getStoredLineKeys().filter(e => e !== lineKey);
+  const storedLineKeys = getStoredLineKeys().filter((e) => e !== lineKey);
   storedLineKeys.unshift(lineKey);
 
   storeLineKeys(storedLineKeys);
-};
+}
 
 export function unstarLine(lineKey: string) {
-  const storedLineKeys = getStoredLineKeys().filter(e => e !== lineKey);
+  const storedLineKeys = getStoredLineKeys().filter((e) => e !== lineKey);
 
   storeLineKeys(storedLineKeys);
+}
+
+export const getModes = () => {
+  const modes = ALL_LINES.map((line) => line.modeName).filter(
+    (value, index, self) => self.indexOf(value) === index,
+  );
+  return modes;
+};
+
+export const getLinesByMode = (mode: string) => {
+  return getLines().filter((line) => line.modeName === mode);
+};
+
+export const getModeName = (mode: string): string => {
+  const modeNames: { [key: string]: string } = {
+    tube: "Tube",
+    dlr: "DLR",
+    "elizabeth-line": "Elizabeth Line",
+    overground: "Overground",
+    tram: "Tram",
+  };
+  return modeNames[mode] || mode;
 };

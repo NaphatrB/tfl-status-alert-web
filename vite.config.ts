@@ -40,14 +40,6 @@ export default defineConfig({
   ],
   server: {
     port: 3000,
-    proxy: {
-      "/api": {
-        target: "https://tubealert-co-uk.pages.dev",
-        changeOrigin: true,
-        secure: true,
-        ws: true,
-      },
-    },
   },
   build: {
     target: "esnext",

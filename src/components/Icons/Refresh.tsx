@@ -1,8 +1,6 @@
 const Refresh = () => (
   <svg>
-    <use
-      xlinkHref="#icon-refresh"
-    />
+    <use xlinkHref="#icon-refresh" />
   </svg>
 );
 
