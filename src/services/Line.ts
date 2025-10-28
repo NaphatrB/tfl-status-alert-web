@@ -290,34 +290,39 @@ export const getLines = () => {
 
   const findInStoredLines = (lineKey: string) => {
     const foundIndex = storedLineKeys.indexOf(lineKey);
-    return (foundIndex === -1) ? Infinity : foundIndex;
-  }
+    return foundIndex === -1 ? Infinity : foundIndex;
+  };
 
-  ALL_LINES.sort((line, anotherLine) => findInStoredLines(line.urlKey) - findInStoredLines(anotherLine.urlKey));
+  ALL_LINES.sort(
+    (line, anotherLine) =>
+      findInStoredLines(line.urlKey) - findInStoredLines(anotherLine.urlKey),
+  );
   return ALL_LINES;
 };
 
 export const getStoredLineKeys = () => {
-  const storedLineKeys: string[] = JSON.parse(localStorage.getItem("starredLines") || "[]");
+  const storedLineKeys: string[] = JSON.parse(
+    localStorage.getItem("starredLines") || "[]",
+  );
   return storedLineKeys;
 };
 
 export const storeLineKeys = (lineKeys: string[]) => {
   localStorage.setItem("starredLines", JSON.stringify(lineKeys));
-}
+};
 
 export function starLine(lineKey: string) {
-  const storedLineKeys = getStoredLineKeys().filter(e => e !== lineKey);
+  const storedLineKeys = getStoredLineKeys().filter((e) => e !== lineKey);
   storedLineKeys.unshift(lineKey);
 
   storeLineKeys(storedLineKeys);
-};
+}
 
 export function unstarLine(lineKey: string) {
-  const storedLineKeys = getStoredLineKeys().filter(e => e !== lineKey);
+  const storedLineKeys = getStoredLineKeys().filter((e) => e !== lineKey);
 
   storeLineKeys(storedLineKeys);
-};
+}
 
 export const getModes = () => {
   const modes = ALL_LINES.map((line) => line.modeName).filter(

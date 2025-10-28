@@ -1,6 +1,6 @@
 const Close = () => (
   <svg>
-    <use  xlinkHref="#icon-close" />
+    <use xlinkHref="#icon-close" />
   </svg>
 );
 

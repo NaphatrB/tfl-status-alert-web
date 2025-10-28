@@ -1,6 +1,6 @@
 const Alert = () => (
   <svg>
-    <use  xlinkHref="#icon-alert" />
+    <use xlinkHref="#icon-alert" />
   </svg>
 );
 

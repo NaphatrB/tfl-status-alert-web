@@ -7,7 +7,9 @@ import { useStatus } from "../hooks/useStatus";
 
 export const ActiveLine = ({ lineKey }: { lineKey: string }) => {
   const [currentData, setCurrentData] = useState<Line | null | undefined>(null);
-  const [currentStatus, setCurrentStatus] = useState<Status | null | undefined>(null);
+  const [currentStatus, setCurrentStatus] = useState<Status | null | undefined>(
+    null,
+  );
   const status = useStatus();
 
   useEffect(() => {
@@ -22,21 +24,19 @@ export const ActiveLine = ({ lineKey }: { lineKey: string }) => {
   }
 
   return (
-    <ActivePagePanel
-      title={currentData.name}
-      lineKey={currentData?.urlKey}
-    >
+    <ActivePagePanel title={currentData.name} lineKey={currentData?.urlKey}>
       <div>
         <h2 className="text-xl mb-1">
           {currentStatus?.statusSummary || "Fetching…"}
         </h2>
         {currentStatus?.latestStatus.descriptions.map((description, index) => (
-          <p key={index} className="mb-1">{description}</p>
+          <p key={index} className="mb-1">
+            {description}
+          </p>
         ))}
         {currentStatus?.updatedAt && (
           <p>
-            Updated:{" "}
-            {new Date(currentStatus.updatedAt).toLocaleDateString()}{" "}
+            Updated: {new Date(currentStatus.updatedAt).toLocaleDateString()}{" "}
             {new Date(currentStatus.updatedAt).toLocaleTimeString()}
           </p>
         )}

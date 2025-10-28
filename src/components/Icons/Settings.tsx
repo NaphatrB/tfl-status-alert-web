@@ -1,9 +1,6 @@
 const Settings = () => (
   <svg>
-    <use
-      
-      xlinkHref="#icon-settings"
-    />
+    <use xlinkHref="#icon-settings" />
   </svg>
 );
 

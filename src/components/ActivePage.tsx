@@ -5,7 +5,12 @@ import Starred from "./Icons/Starred";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Settings } from "./Settings";
 import { ActiveLine } from "./ActiveLine";
-import { getStoredLineKeys, starLine, unstarLine, getLineByUrlKey } from "../services/Line";
+import {
+  getStoredLineKeys,
+  starLine,
+  unstarLine,
+  getLineByUrlKey,
+} from "../services/Line";
 import { getLineColor } from "../services/Colors";
 
 const ACTIVE_PANEL_ID = "active-panel";
@@ -63,12 +68,12 @@ const StarIcon = ({ lineKey }: { lineKey: string | undefined }) => {
 
   const handleStar = () => {
     starLine(lineKey);
-    setRefresh(prev => prev + 1);
+    setRefresh((prev) => prev + 1);
   };
 
   const handleUnstar = () => {
     unstarLine(lineKey);
-    setRefresh(prev => prev + 1);
+    setRefresh((prev) => prev + 1);
   };
 
   if (getStoredLineKeys().includes(lineKey)) {
@@ -92,10 +97,12 @@ export const ActivePagePanel = (props: {
   children?: ReactNode;
 }) => {
   const navigate = useNavigate();
-  
+
   // Get line colors dynamically
   const line = props.lineKey ? getLineByUrlKey(props.lineKey) : null;
-  const colors = line ? getLineColor(line.tflKey) : { background: "#1c1917", foreground: "#fafaf9" };
+  const colors = line
+    ? getLineColor(line.tflKey)
+    : { background: "#1c1917", foreground: "#fafaf9" };
 
   const onTouchStart = (e: TouchEvent) => {
     activePanel =

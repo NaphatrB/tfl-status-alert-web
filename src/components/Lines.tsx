@@ -49,7 +49,9 @@ export const Lines = () => {
               >
                 <div className="flex-1">
                   <h2>{line.name}</h2>
-                  <p>{getLineStatus(line.urlKey)?.statusSummary || "Fetching…"}</p>
+                  <p>
+                    {getLineStatus(line.urlKey)?.statusSummary || "Fetching…"}
+                  </p>
                 </div>
                 {getLineStatus(line.urlKey)?.isDisrupted && (
                   <div className="w-[42px] h-[42px]">

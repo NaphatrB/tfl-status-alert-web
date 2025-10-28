@@ -16,7 +16,12 @@ export const Settings = () => {
       <p>
         Powered by TfL Open Data. <br />
         Built by{" "}
-        <a href="https://rland.me.uk" target="_blank" className="underline" rel="noreferrer">
+        <a
+          href="https://rland.me.uk"
+          target="_blank"
+          className="underline"
+          rel="noreferrer"
+        >
           David Marland
         </a>
       </p>
@@ -32,8 +37,9 @@ export const Unsubscribe = () => {
     return (
       <p>
         <strong>
-          Your browser does not currenly support push notifications for disruption alerts. 
-          If on iOS, please add this webpage to your homescreen and try again from there.
+          Your browser does not currenly support push notifications for
+          disruption alerts. If on iOS, please add this webpage to your
+          homescreen and try again from there.
         </strong>
       </p>
     );
