@@ -1,11 +1,13 @@
-import type { Component, JSX } from "solid-js";
+import type { ButtonHTMLAttributes, ReactNode } from "react";
 
-export const Button: Component<
-  { className?: string } & JSX.ButtonHTMLAttributes<HTMLButtonElement>
-> = ({ className, children, ...rest }) => {
+export const Button = ({
+  className,
+  children,
+  ...rest
+}: { className?: string; children?: ReactNode } & ButtonHTMLAttributes<HTMLButtonElement>) => {
   return (
     <button
-      class={`bg-line-background text-line-foreground border border-line-foreground rounded-md px-1 py-0.5 ${className}`}
+      className={`bg-line-background text-line-foreground border border-line-foreground rounded-md px-1 py-0.5 ${className || ""}`}
       {...rest}
     >
       {children}

@@ -1,17 +1,20 @@
-import { Component } from "solid-js";
+import { useEffect } from "react";
 
 import { Header } from "./components/Header";
 import { Lines } from "./components/Lines";
 import { ActivePage } from "./components/ActivePage";
 import { updateStatus } from "./services/Status";
 
-const App: Component = () => {
-  updateStatus();
-  setInterval(updateStatus, 1000 * 120);
+const App = () => {
+  useEffect(() => {
+    updateStatus();
+    const interval = setInterval(updateStatus, 1000 * 120);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <>
-      <div style="display:none">
+      <div style={{ display: "none" }}>
         <svg>
           <symbol id="icon-refresh" viewBox="0 0 24 24">
             <path d="M17.65,6.35C16.2,4.9 14.21,4 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20C15.73,20 18.84,17.45 19.73,14H17.65C16.83,16.33 14.61,18 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6C13.66,6 15.14,6.69 16.22,7.78L13,11H20V4L17.65,6.35Z"></path>
@@ -54,8 +57,8 @@ const App: Component = () => {
                     33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"/>
           </symbol>
         </svg>
-      </div >
-      <div class="grid grid-rows-[48px_1fr] h-screen lg:h-auto max-h-screen">
+      </div>
+      <div className="grid grid-rows-[48px_1fr] h-screen lg:h-auto max-h-screen">
         <Header />
         <Lines />
       </div>

@@ -1,4 +1,3 @@
-import { createSignal } from "solid-js";
 import { Line } from "./Line";
 
 export type Status = Line & {
@@ -14,7 +13,29 @@ export type Status = Line & {
   };
 };
 
-export const [latestStatus, setLatestStatus] = createSignal<Status[]>();
+// Global state that components will access via hooks
+let currentStatus: Status[] | undefined = undefined;
+let statusListeners: Array<(status: Status[] | undefined) => void> = [];
+
+export const subscribeToStatus = (
+  listener: (status: Status[] | undefined) => void,
+) => {
+  statusListeners.push(listener);
+  return () => {
+    statusListeners = statusListeners.filter((l) => l !== listener);
+  };
+};
+
+export const getLatestStatus = () => currentStatus;
+
+const notifyListeners = () => {
+  statusListeners.forEach((listener) => listener(currentStatus));
+};
+
+export const setLatestStatus = (data: Status[]) => {
+  currentStatus = data;
+  notifyListeners();
+};
 
 export const updateStatus = () => {
   fetch("/api/status")
@@ -23,8 +44,8 @@ export const updateStatus = () => {
 };
 
 export const getLineStatus = (urlKey: string) => {
-  if (!latestStatus()) {
+  if (!currentStatus) {
     return null;
   }
-  return latestStatus()?.find((line) => line.urlKey === urlKey);
+  return currentStatus?.find((line) => line.urlKey === urlKey);
 };
