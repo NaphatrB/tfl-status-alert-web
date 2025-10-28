@@ -92,6 +92,18 @@ export const LINE_COLORS: { [key: string]: LineColor } = {
     background: "#66CC00",
     foreground: "#111111",
   },
+  // River Bus (London River Services)
+  // NCS S 2060-B per TfL colour standard
+  "river-bus": {
+    background: "#0087BD",
+    foreground: "#ffffff",
+  },
+  // Cable Car (Emirates Air Line)
+  // NCS S 1580-R per TfL colour standard
+  "cable-car": {
+    background: "#AA0028",
+    foreground: "#ffffff",
+  },
 };
 
 export const getLineColor = (lineId: string): LineColor => {
