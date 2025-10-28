@@ -168,6 +168,22 @@ export const ALL_LINES: Line[] = [
     displayOrder: 20,
     modeName: "tram",
   },
+  {
+    name: "River Bus",
+    shortName: "River Bus",
+    urlKey: "river-bus",
+    tflKey: "river-bus",
+    displayOrder: 21,
+    modeName: "river-bus",
+  },
+  {
+    name: "Cable Car",
+    shortName: "Cable Car",
+    urlKey: "cable-car",
+    tflKey: "cable-car",
+    displayOrder: 22,
+    modeName: "cable-car",
+  },
 ];
 
 export const getLineByUrlKey = (urlKey: string | null) =>
@@ -342,6 +358,8 @@ export const getModeName = (mode: string): string => {
     "elizabeth-line": "Elizabeth Line",
     overground: "Overground",
     tram: "Tram",
+    "river-bus": "River Bus",
+    "cable-car": "Cable Car",
   };
   return modeNames[mode] || mode;
 };

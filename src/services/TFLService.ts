@@ -13,7 +13,7 @@ export default class TFLService {
 
   async #fetchCurrentStatus() {
     // Fetch all modes that we support
-    const modes = "tube,dlr,elizabeth-line,overground,tram";
+    const modes = "tube,dlr,elizabeth-line,overground,tram,river-bus,cable-car";
     const url = `https://api.tfl.gov.uk/Line/Mode/${modes}/Status`;
 
     try {

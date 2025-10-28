@@ -17,7 +17,7 @@ export const Lines = () => {
   return (
     <div className="flex flex-col h-full">
       {/* Tabs */}
-      <div className="flex border-b border-gray-300 dark:border-gray-700 overflow-x-auto">
+      <div className="flex justify-evenly border-b border-gray-300 dark:border-gray-700 overflow-x-auto">
         {modes.map((mode) => (
           <button
             key={mode}
